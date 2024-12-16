@@ -1,0 +1,11 @@
+{
+  "name": "sync-service",
+  "version": "0.0.1",
+  "description": "Microservice responsible for synchronization operations between XCComp and XCBrasil",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
