@@ -1,3 +1,3 @@
 export const startService = () => {
-  return `sync-service it's on =)`
+  return `sync-service it's on =) .`
 } 
