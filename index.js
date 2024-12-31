@@ -1,3 +1,5 @@
 import { startService } from './src/service.js' 
+import { logger } from '#logger' 
+
 const appStatus = startService()
-console.log(appStatus)
+logger.info(appStatus)
