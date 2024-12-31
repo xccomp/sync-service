@@ -1,5 +1,4 @@
-import { startService } from './src/service.js' 
-import { logger } from '#logger' 
+import { ServerBuilder } from '#server/index.js'
 
-const appStatus = startService()
-logger.info(appStatus)
+const server = await ServerBuilder.build()
+server.start()

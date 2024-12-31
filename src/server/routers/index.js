@@ -1,0 +1,1 @@
+export { default as exempleRouter }  from './exemple-router.js'
