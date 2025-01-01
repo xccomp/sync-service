@@ -1,0 +1,5 @@
+Url to get paraglider brands. Need to scrape a select-input from form to get brands name and id
+http://www.xcbrasil.com.br/GUI_EXT_add_glider.php
+
+Url to get paraglider models by brand ID. The return is a JSON
+http://www.xcbrasil.com.br/AJAX_gliders.php?op=gliders_list&brandID=147

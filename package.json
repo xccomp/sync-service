@@ -6,7 +6,8 @@
   "type": "module",
   "imports": {
     "#logger": "./src/libs/logger/index.js",
-    "#server/*": "./src/server/*"
+    "#server/*": "./src/server/*",
+    "#use-cases/*": "./src/use-cases/*"
   },
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests",
@@ -20,6 +21,8 @@
     "pino-pretty": "^13.0.0"
   },
   "dependencies": {
+    "axios": "^1.7.9",
+    "cheerio": "^1.0.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "pino": "^9.6.0"

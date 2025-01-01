@@ -1,1 +1,1 @@
-export { default as exempleRouter }  from './exemple-router.js'
+export { default as paragliderRouter }  from './paraglider-router.js'
