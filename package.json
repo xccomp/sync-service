@@ -7,11 +7,12 @@
   "imports": {
     "#logger": "./src/libs/logger/index.js",
     "#server/*": "./src/server/*",
-    "#use-cases/*": "./src/use-cases/*"
+    "#domain/*": "./src/domain/*"
   },
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests",
     "dev": "node --watch index.js | pino-pretty",
+    "debug": "node --inspect index.js | pino-pretty",
     "start": "node index.js"
   },
   "author": "",

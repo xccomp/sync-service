@@ -4,24 +4,24 @@ import { logger } from '#logger'
 
 dotenv.config()
 
-class SyncDB {
+class XCCompDB {
   
   static #pool = new pg.Pool({
     connectionString: process.env.POSTGRESS_CONNECTION_STRING
   })
 
   static async query(text, params) {
-    const res = await SyncDB.#pool.query(text, params)
+    const res = await XCCompDB.#pool.query(text, params)
     return res
   }
 
   static async getClient() {
-    return SyncDB.#pool.connect()
+    return XCCompDB.#pool.connect()
   }
 
   static async testConnection () {
     try {
-      const result = await SyncDB.query('SELECT NOW()')
+      const result = await XCCompDB.query('SELECT NOW()')
       return Boolean(result.rows.length)
     } catch (error) {
       logger.error(error)
@@ -30,5 +30,5 @@ class SyncDB {
   } 
 }
 
-export default SyncDB
+export default XCCompDB
 

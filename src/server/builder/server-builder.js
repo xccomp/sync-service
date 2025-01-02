@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import Server from './server.js'
-import { paragliderRouter } from '#server/routers/index.js'
+import { gliderRouter } from '#server/routers/index.js'
 
 export default class ServerBuilder {
   static #httpServer
@@ -29,7 +29,7 @@ export default class ServerBuilder {
   }
 
   static #setHttpServerRoutes () {
-    this.#httpServer.use('/paraglider', paragliderRouter)
+    this.#httpServer.use('/gliders', gliderRouter)
   }
 
   static #createServer () {

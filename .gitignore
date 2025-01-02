@@ -129,5 +129,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# temp lab files
-./temp*.js
+# temp lab files and sync files
+temp*.js
+sync-files/

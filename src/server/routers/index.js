@@ -1,1 +1,1 @@
-export { default as paragliderRouter }  from './paraglider-router.js'
+export { default as gliderRouter }  from './glider-router.js'
