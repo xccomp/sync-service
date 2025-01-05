@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import Server from './server.js'
-import { gliderRouter } from '#server/routers/index.js'
+import { syncRouter, pilotRouter } from '#server/routers/index.js'
 
 export default class ServerBuilder {
   static #httpServer
@@ -29,8 +29,10 @@ export default class ServerBuilder {
   }
 
   static #setHttpServerRoutes () {
-    this.#httpServer.use('/gliders', gliderRouter)
+    this.#httpServer.use('/sync', syncRouter)
+    this.#httpServer.use('/pilot', pilotRouter)
   }
+  
 
   static #createServer () {
     const server = new Server()

@@ -25,8 +25,9 @@ export default class Server {
   } 
 
   start () {
-    this.#httpServer.listen(this.#port, () => {
+    const startedServer = this.#httpServer.listen(this.#port, () => {
       logger.info(`Server listening on port ${this.#port}`)
     })
+    startedServer.setTimeout(120000)
   }
 }
