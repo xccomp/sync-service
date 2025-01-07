@@ -1,9 +1,10 @@
 import { logger } from "#logger"
 import { updateXcbrasilIds } from '#domain/use-cases/update-xcbrasil-ids.js'
+import { getPilotsWithoutXcbrasilId } from '#domain/use-cases/get-pilots.js'
 
-export default class SyncController {
+export default class PilotController {
 
-  static async updateXbrasilIds (req, res) {
+  static async updateXcbrasilIds (req, res) {
     try {   
       const result = await updateXcbrasilIds() 
       result.error = result.error ? result.error.message : undefined
@@ -16,9 +17,9 @@ export default class SyncController {
     }
   }
 
-  static async getPilotsWithoutXcbrasilid (req, res) {l
+  static async getPilotsWithoutXcbrasilId (req, res) {
     try {   
-      const result = await getPilotsWithoutXcbrasilid() 
+      const result = await getPilotsWithoutXcbrasilId() 
       res.send(result)
     } catch (error) {     
       logger.error(error)

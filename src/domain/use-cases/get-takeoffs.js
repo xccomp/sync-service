@@ -1,16 +1,17 @@
 import XCCompDB from "#libs/xccomp-db/index.js"
 
 
-export async function getPilotsWithoutXcbrasilId () {
+export async function getTakeoffsWithoutCities () {
   let dbClient = null
   try {
     dbClient = await XCCompDB.getClient()
-    const sql = 'SELECT id, cbvl_id, name FROM pilots p WHERE p.xcbrasil_id is null ORDER BY p.name ASC'
+    const sql = 'SELECT t.id, t.name, t.latitude, t.longitude FROM takeoffs t WHERE t.city_id is null ORDER BY t.name ASC'
     const queryResult = await dbClient.query(sql)
-    return queryResult.rows.map(row => ({ 
+    return queryResult.rows.map(row => ({
       id: row.id,
-      cbvlId: row.cbvl_id,
       name: row.name,
+      latitude: row.latitude,
+      longitude: row.longitude
     }))
   } catch (error) {
     throw error

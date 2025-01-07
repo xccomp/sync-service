@@ -1,18 +1,17 @@
 import { sleep } from "#libs/utils/pormise-utils.js"
 import XCCompDB from "#libs/xccomp-db/index.js"
 import { logger } from "#logger"
-import error2json from "@stdlib/error-to-json"
 import axios from "axios"
-import { getPilotsWithoutXcbrId } from "./get-pilots.js"
+import { getPilotsWithoutXcbrasilId } from "./get-pilots.js"
 
                
 export async function updateXcbrasilIds ()  {
   const result = {
-    searches: [],
-    updates: []
+    searches: null,
+    updates: null
   }
   try {
-    const pilotsWithoutXcbrId = await getPilotsWithoutXcbrId()
+    const pilotsWithoutXcbrId = await getPilotsWithoutXcbrasilId()
     result.searches = await searchForXcbrasilIds(pilotsWithoutXcbrId)
     result.updates = await updatePilotsWithTheXcbrasiIds(result.searches.successList)
     return result
@@ -21,8 +20,6 @@ export async function updateXcbrasilIds ()  {
     return result
   }
 }
-
-
 
 
 async function searchForXcbrasilIds (pilotsWithoutXcbrId) {
@@ -49,7 +46,7 @@ async function searchForXcbrasilIds (pilotsWithoutXcbrId) {
         item: pilot
         })
       logger.warn(`Falha na tentativa de buscar o id do XcBrasil do piloto: ${JSON.stringify(pilot)}`)
-      // logger.error(error2json(error))
+      logger.error(error)
       cancelUpdate = true
     }
     if (cancelUpdate) continue
@@ -63,7 +60,7 @@ async function searchForXcbrasilIds (pilotsWithoutXcbrId) {
         item: pilot
         })
       logger.warn(`Falha na tentativa de parsse do id do XcBrasil do piloto ${pilot.cbvlId}. Resposta XCBrasil: ${JSON.stringify(response)}`)
-      logger.error(error2json(error))
+      logger.error(error)
     }
    
   }
@@ -82,7 +79,9 @@ async function updatePilotsWithTheXcbrasiIds (successfulSearches) {
     try {
       const sql = `
         UPDATE pilots
-        SET xcbrasil_id = ${search.xcbrasilId}
+        SET 
+          xcbrasil_id = ${search.xcbrasilId}
+          updated_at = NOW()
         WHERE cbvl_id = ${search.cbvlId}
       `
       await dbClient.query(sql)
@@ -90,7 +89,7 @@ async function updatePilotsWithTheXcbrasiIds (successfulSearches) {
     } catch (error) {
       result.errorList.push({ error, item: search})
       logger.warn(`Falha na tentativa de gravar o id do XcBrasil no regiatro do piloto no banco de dados xccomp:  ${JSON.stringify(search)}`)
-      logger.error(error2json(error))
+      logger.error(error)
     }  
   }
   dbClient && dbClient.release()

@@ -394,7 +394,7 @@ export default class PilotSyncProcessor {
       })
     }
     const resultSearches = updateXcbrasilIdsResults.searches
-    if (resultSearches.errorList.length) {
+    if (resultSearches.errorList?.length) {
       const total = resultSearches.errorList.length + resultSearches.successList.length
       const totalErrors = resultSearches.errorList.length
       const log = `Das ${total} tentativas de busca de IDs do XCBrasil, ${totalErrors} foram malsucedidas`
@@ -407,7 +407,7 @@ export default class PilotSyncProcessor {
       })
     } 
     const resultUpdates = updateXcbrasilIdsResults.updates
-    if (resultUpdates.errorList.length) {
+    if (resultUpdates.errorList?.length) {
       const total = resultUpdates.errorList.length + resultUpdates.successList.length
       const totalErrors = resultUpdates.errorList.length
       const log = `Das ${total} tentativas de gravação de IDs do XCBrasil, ${totalErrors} foram malsucedidas`
@@ -446,14 +446,16 @@ export default class PilotSyncProcessor {
             details: queryResult.rows
           })
         } 
-        return queryResult.rows.map(row => ({ 
-          cbvlId: row.cbvl_id,
-          name: row.name,
-        }))
       } catch (error) {
-        throw error
+        this.syncReport.addOccurrence({ 
+          process: this.processName,
+          step: SyncProcessor.STEP_NAMES.postProcess, 
+          type: SyncReport.OCCURENCE_TYPES.warning,
+          info: "Houve uma falha na verificação da existencia nos registros nas tabelas de sincronismo.",
+          details: resultUpdates.errorList
+        })
       } finally  {
-        dbClient && dbClient.release()
+        dbClient?.release()
       }
   }
   

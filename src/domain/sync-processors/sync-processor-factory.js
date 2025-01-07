@@ -1,5 +1,6 @@
 import GliderSyncProcessor from "./gliders/glider-sync-processor.js"
 import PilotSyncProcessor from "./pilots/pilot-sync-processor.js"
+import TakeoffSyncProcessor from "./takeoffs/takeoff-sync-processor.js"
 
 export function createSyncProcessor (processName, firstStep, lastStep, syncReport) {
   if (processName === 'GLIDER-SYNC') {
@@ -8,6 +9,10 @@ export function createSyncProcessor (processName, firstStep, lastStep, syncRepor
 
   if (processName === 'PILOT-SYNC') {
     return new PilotSyncProcessor ({ firstStep, lastStep, syncReport })
+  }
+
+  if (processName === 'TAKEOFF-SYNC') {
+    return new TakeoffSyncProcessor  ({ firstStep, lastStep, syncReport })
   }
 
   return null

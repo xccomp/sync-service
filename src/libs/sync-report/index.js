@@ -1,6 +1,7 @@
 import { logger } from '#logger'
 import fs from 'fs'
 import error2json from '@stdlib/error-to-json'
+import { log } from 'console'
 
 export default class SyncReport  {
   
@@ -58,12 +59,7 @@ export default class SyncReport  {
   }
 
   addOccurrence({ process, step, type, info, details }) {
-    let datailsAsText = details
-    if (details instanceof Error) {
-      datailsAsText = error2json(details)
-    } 
-    
-
+    const parsedDetails = this.parseDetails(details)
     this.#data.push(
       { 
         time: Date.now(),
@@ -71,10 +67,31 @@ export default class SyncReport  {
         step,
         type,
         info,
-        details: datailsAsText
+        details: parsedDetails
       }
     )
   }
+
+  parseDetails (details) {
+    if (!details) return details
+    if (details instanceof Error) {
+      return {
+        name: details.name, 
+        message: details.message,
+        stack: details.stack
+      }
+    } 
+    if (Array.isArray(details)) {
+      return details.map(el => this.parseDetails(el))
+    }
+    if (details instanceof Object) {
+      const parsedObj = {}
+      Object.keys(details).forEach(key => parsedObj[key] = this.parseDetails(details[key])) 
+      return parsedObj
+    } 
+    return details
+  }
+
 
   generate ({ saveReportOnFile = true, reportOnreturn = false, errorOnReturn = false } = {}) {
     try {
