@@ -4,15 +4,17 @@ import { getGeneralRankings } from "#domain/use-cases/ranking/get-general-rankin
 import { getRegionalRankings } from "#domain/use-cases/ranking/get-regional-ranking.js"
 import { RegionalLeagues } from "#domain/entities/regional-leagues.js"
 import { getPodiumGeneralRanking, getPodiumRegionalLeague } from "#domain/use-cases/ranking/get-podium.js"
+import { GeneralRankingCategories } from "#domain/entities/general-ranking-categories.js"
 
 export default class RankingController {
 
   static async getPodium (req, res) { 
     try {
-      const ranking = req.params.ranking
+      const ranking = req.params.ranking || 'general'
+      const category = req.params.category?.toUpperCase() || GeneralRankingCategories.OPEN 
 
-      if (ranking === 'general') 
-        return res.send(await getPodiumGeneralRanking())
+      if (ranking === 'general')
+        return res.send(await getPodiumGeneralRanking(category))
       const league = convertParamLeague(ranking)
 
       if (!league) return res.status(400).send()

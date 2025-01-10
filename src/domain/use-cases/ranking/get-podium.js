@@ -27,6 +27,7 @@ export async function getPodiumGeneralRanking (category) {
 
 
 export async function getPodiumRegionalLeague (regionalLeage) {
+  
   const prefixLeage = getPrefixLeague(regionalLeage)
   const dbClient = await XCCompDB.getClient()
   try {
