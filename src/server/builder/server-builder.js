@@ -7,7 +7,8 @@ import {
   pilotRouter,
   takeoffRouter,
   flightRouter,
-  rankingRouter
+  rankingRouter,
+  complaintRouter
 } from '#server/routers/index.js'
 
 export default class ServerBuilder {
@@ -42,6 +43,7 @@ export default class ServerBuilder {
     this.#httpServer.use('/flight', flightRouter)
     this.#httpServer.use('/glider', gliderRouter)
     this.#httpServer.use('/ranking', rankingRouter)
+    this.#httpServer.use('/complaint', complaintRouter)
   }
   
 
