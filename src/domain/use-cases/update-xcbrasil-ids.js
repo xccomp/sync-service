@@ -80,7 +80,7 @@ async function updatePilotsWithTheXcbrasiIds (successfulSearches) {
       const sql = `
         UPDATE pilots
         SET 
-          xcbrasil_id = ${search.xcbrasilId}
+          xcbrasil_id = ${search.xcbrasilId},
           updated_at = NOW()
         WHERE cbvl_id = ${search.cbvlId}
       `

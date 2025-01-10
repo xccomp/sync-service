@@ -1,7 +1,14 @@
 import express from 'express'
 import cors from 'cors'
 import Server from './server.js'
-import { syncRouter, pilotRouter, takeoffRouter } from '#server/routers/index.js'
+import { 
+  syncRouter,
+  gliderRouter,
+  pilotRouter,
+  takeoffRouter,
+  flightRouter,
+  rankingRouter
+} from '#server/routers/index.js'
 
 export default class ServerBuilder {
   static #httpServer
@@ -32,6 +39,9 @@ export default class ServerBuilder {
     this.#httpServer.use('/sync', syncRouter)
     this.#httpServer.use('/pilot', pilotRouter)
     this.#httpServer.use('/takeoff', takeoffRouter)
+    this.#httpServer.use('/flight', flightRouter)
+    this.#httpServer.use('/glider', gliderRouter)
+    this.#httpServer.use('/ranking', rankingRouter)
   }
   
 

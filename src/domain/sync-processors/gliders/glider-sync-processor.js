@@ -2,9 +2,10 @@ import axios from 'axios'
 import * as cheerio from 'cheerio'
 import XCCompDB from "#libs/xccomp-db/index.js"
 import { logger } from "#logger"
-import { paragliderCertifications } from '#domain/entities/paraglider-certifications.js'
+import { GliderCertifications } from '#domain/entities/glider-certifications.js'
 import { SyncProcessor } from '../sync-porcessor.js'
 import SyncReport from '#sync-report'
+import { postProcess } from './post-process-gliders.js'
 
 export default class GliderSyncProcessor {
   
@@ -230,22 +231,22 @@ export default class GliderSyncProcessor {
   #transformModels (models) {
     this.#loggerTransform(`Transforming glider models data`)
     const mapCertification = new Map([
-      ['1', paragliderCertifications.LFT_1], 
-      ['2', paragliderCertifications.LFT_1_2],
-      ['4', paragliderCertifications.LFT_2],
-      ['8', paragliderCertifications.LFT_2_3],
-      ['16', paragliderCertifications.LFT_3],
-      ['32', paragliderCertifications.EN_A],
-      ['64', paragliderCertifications.EN_B],
-      ['128', paragliderCertifications.EN_C],
-      ['256', paragliderCertifications.EN_D],
-      ['1024', paragliderCertifications.EN_CCC]
+      ['1', GliderCertifications.LFT_1], 
+      ['2', GliderCertifications.LFT_1_2],
+      ['4', GliderCertifications.LFT_2],
+      ['8', GliderCertifications.LFT_2_3],
+      ['16', GliderCertifications.LFT_3],
+      ['32', GliderCertifications.EN_A],
+      ['64', GliderCertifications.EN_B],
+      ['128', GliderCertifications.EN_C],
+      ['256', GliderCertifications.EN_D],
+      ['1024', GliderCertifications.EN_CCC]
     ])
     return models.map(model => ({
       id: Number(model.gliderID),
       brandId: Number(model.brandID),
       name: model.gliderName,
-      certification: mapCertification.get(model.gliderCert) || paragliderCertifications.NONE
+      certification: mapCertification.get(model.gliderCert) || GliderCertifications.NONE
     }))
   }
 
@@ -454,9 +455,19 @@ export default class GliderSyncProcessor {
   async postProcess () {
     this.#loggerPostProcess('Start step')
     this.syncReport.startStep(this.processName, SyncProcessor.STEP_NAMES.postProcess)
-    this.#loggerPostProcess('There is no post processing for this process')
+    const result = await postProcess()
+    if (result.mappingResults.error) { 
+      this.syncReport.addOccurrence({ 
+        process: this.processName,
+        step: SyncProcessor.STEP_NAMES.postProcess, 
+        type: SyncReport.OCCURENCE_TYPES.warning,
+        info: 'Houve um problema na criação de mapeamentos de gliders',
+        details: result.mappingResults.error
+      })
+    }
+
     this.#loggerPostProcess('End step')
-    this.syncReport.endStep(this.processName, SyncProcessor.STEP_NAMES.postProcess)
+    this.syncReport.endStep(this.processName, SyncProcessor.STEP_NAMES.postProcess, result.mappingResults)
   }
 
   #loggerPostProcess(text) {

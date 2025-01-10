@@ -1,0 +1,6 @@
+export const RegionalLeagues = Object.freeze({
+  CERRADO_MINEIRO: 'CERRADO_MINEIRO',
+  SUL_DE_MINAS: 'SUL_DE_MINAS',
+  VALE_DO_RIO_DOCE: 'VALE_DO_RIO_DOCE',
+  ZONA_DA_MATA: 'ZONA_DA_MATA'
+})

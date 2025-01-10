@@ -74,7 +74,10 @@ async function getCitiesFromGoogleAPI (takeofs) {
       response = await (await axios.get(url)).data
             
       if (!response.results.length) {
-        throw new Error(`A Google Geocoding API não retornou nenhum resultado para as coordenada da rampa ${JSON.stringify(takeoff)}`)
+        response.results = [{address_components:[{
+          long_name: 'Localização de coordenada inválida',
+          types: ['country', 'administrative_area_level_1', 'locality']
+        }]}]
       } 
     
     } catch (error) {

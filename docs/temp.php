@@ -1,0 +1,1 @@
+"      INSERT INTO         cities (name, microregion, mesoregion, uf, region, country, ibge_id)      VALUES        (          'Olhos-d'Água',          'Bocaiúva',          'Norte de Minas',          'Minas Gerais',            'Sudeste',          'Brasil',          3145455)        "

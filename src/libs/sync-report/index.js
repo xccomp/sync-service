@@ -35,7 +35,7 @@ export default class SyncReport  {
 
 
   start (previstProcessAndSteps) {
-    this.addOccurrence({type: SyncReport.OCCURENCE_TYPES.startSyn, details: previstProcessAndSteps})
+    this.addOccurrence({type: SyncReport.OCCURENCE_TYPES.startSync, details: previstProcessAndSteps})
   }
 
   end () {
@@ -54,8 +54,8 @@ export default class SyncReport  {
     this.addOccurrence({ process, step, type: SyncReport.OCCURENCE_TYPES.startStep })
   } 
 
-  endStep (process, step) {
-    this.addOccurrence({ process, step, type: SyncReport.OCCURENCE_TYPES.endStep })
+  endStep (process, step, details) {
+    this.addOccurrence({ process, step, type: SyncReport.OCCURENCE_TYPES.endStep, details })
   }
 
   addOccurrence({ process, step, type, info, details }) {
