@@ -1,0 +1,81 @@
+{
+  "gliderSync": {},
+  "pillotSync": {
+    "scrape": {
+      "rules": [
+        {
+          "id": "scrape/criticalInconsistenceIfVeryLowQuantity",
+          "disabled": false,
+          "value": 110,
+          "text": "Foi encontrada uma quantidade muito baixa ( menos de 110 ) de pilotos durante a varredura dos dados. O processo de sincronismo de pilltos foi abortado. Quantidade de pilotos encontrados: ${count}"
+        },{
+          "id": "scrape/inconsistenceIfLowQuantity",
+          "disabled": false,
+          "value": 120,
+          "text": "Foi encontrada uma quantidade a baixo do normal (menos de 120) de pilotos durante a varredura dos dado. O processo de sicronismo de pilotos não foi abortado, mas recomenda-se que uma análise manual deva ser feita. Quantidade de pilotos enconrtados: ${count}"
+        }
+      ]
+    },
+    "transform": {
+      "rules": [
+        {
+          "id": "transform/criticalInconsistenceIfVeryLowQuantity",
+          "disabled": false,
+          "value": 110,
+          "text": "Foi encontrada uma quantidade muito baixa ( menos de 110 ) de pilotos durante o tratamento dos dados. O processo de sincronismo de pilltos foi abortado. Quantidade de pilotos encontrados: ${count}"
+        },{
+          "id": "transform/inconsistenceIfLowQuantity",
+          "disabled": false,
+          "value": 120,
+          "text": "Foi encontrada uma quantidade a baixo do normal (menos de 120) de pilotos durante a tratamento dos dado. O processo de sicronismo de pilotos não foi abortado, mas recomenda-se que uma análise manual deva ser feita. Quantidade de pilotos enconrtados: ${count}"
+        },        {
+          "id": "transform/inconsistenceIfIsNotNumericCbvlId",
+          "disabled": false,
+          "text": "Foi encontrado um piloto com cbvl_id inválido durante o tratamento dos dados. O processo de sicronismo de pilotos NÃO foi abortado, mas o piloto foi removido do processo" 
+        },{
+          "id": "transform/criticalInconsistenceIfMaxNotNumericCbvlId",
+          "disabled": false,
+          "value": 10,
+          "text": "Foi encontrada uma quantidade considerada alta (mais de 10) de pilotos com o cbvl_id inválido durante o tratamento dos dados. O processo de sincronismo de pilltos foi abortado. Quantidade de pilotos encontrados: ${count}"
+        },{
+          "id": "transform/inconsistenceIfHasNoName",
+          "disabled": false,
+          "text": "Foi encontrado um piloto sem nome durante o tratamento dos dados. O processo de sicronismo de pilotos NÃO foi abortado, mas o piloto foi removido do processo" 
+        },{
+          "id": "transform/criticalInconsistenceIfMaxHasNoName",
+          "disabled": false,
+          "value": 10,
+          "text": "Foi encontrada uma quantidade considerada alta (mais de 10) de pilotos sem nome durante o tratamento dos dados. O processo de sincronismo de pilltos foi abortado. Quantidade de pilotos encontrados: ${count}"
+        },    {
+          "id": "transform/criticalInconsistenceIfMaxPending",
+          "disabled": false,
+          "value": 100,
+          "text": "Foi encontrada uma quantidade considerada alta (mais de 100) de pilotos com anuidade pendente durante o tratamento dos dados. O processo de sincronismo de pilltos foi abortado. Quantidade de pilotos encontrados: ${count}"
+        },{
+          "id": "transform/criticalInconsistenceIfMinParagliderPilots",
+          "disabled": false,
+          "value": 110,
+          "text": "Foi encontrada uma quantidade considerada baixa (menos de 110) de pilotos com homologação PARAPENTE durante o tratamento dos dados. O processo de sincronismo de pilltos foi abortado. Quantidade de pilotos encontrados: ${count}"
+        },{
+          "id": "transform/inconsistenceIfNeitherParagliderNorHangglider",
+          "disabled": false,
+          "text": "Foi encontrado um piloto sem homologação de PARAPENTE nem ASA DELTA durante o tratamento dos dados. O processo de sicronismo de pilotos NÃO foi abortado, mas o piloto foi removido do processo"
+        },{
+          "id": "transform/criticalInconsistenceIfMaxNeitherParagliderNorHangglider",
+          "disabled": false,
+          "value": 10,
+          "text": "Foi encontrada uma quantidade considerada alta (mais de 10) de pilotos sem homologação de PARAPENTE nem ASA DELTA durante o tratamento dos dados. O processo de sincronismo de pilltos foi abortado. Quantidade de pilotos encontrados: ${count}"
+        },{
+          "id": "transform/inconsistenceIfLevelUndefined",
+          "disabled": false,
+          "text": "Foi encontrado um piloto com nível indefinido durante o tratamento dos dados. O processo de sicronismo de pilotos NÃO foi abortado, mas o piloto foi removido do processo"
+        },{
+          "id": "transform/inconsistenceIfMaxLevelUndefined",
+          "disabled": false,
+          "value": 10,
+          "text": "Foi encontrada uma quantidade considerada alta (menos de 10) de pilotos com nível indefinido durante o tratamento dos dados. O processo de sincronismo de pilltos foi abortado. Quantidade de pilotos encontrados: ${count}"
+        }
+      ]
+    }
+  }
+}
