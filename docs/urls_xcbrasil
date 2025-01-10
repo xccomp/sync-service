@@ -1,0 +1,45 @@
+Url to get paraglider brands. Need to scrape a select-input from form to get brands name and id
+http://www.xcbrasil.com.br/GUI_EXT_add_glider.php
+
+Url to get paraglider models by brand ID. The return is a JSON
+http://www.xcbrasil.com.br/AJAX_gliders.php?op=gliders_list&brandID=147
+
+
+<option value="1">LTF 1</option>
+<option value="2">LTF 1/2</option>
+<option value="4">LFT 2</option>
+<option value="8">LFT 2/3</option>
+<option value="16">LFT 3</option>
+<option value="32">EN A</option>
+<option value="64">EN B</option>
+<option value="128">EN C</option>
+<option value="256">EN D</option>
+<option value="1024">CCC OU Proto</option>
+
+
+
+----------------------------------------------------- PILOTOS -----------------------------------------------
+Url de informacoes sobre pilot 
+https://sistema.cbvl.com.br/integracao/webservice/check-plt/18068_19298_20
+{
+    "row": {
+        "nm_ano": "2025",
+        "id_plt": "18068",
+        "id_pss": "19298",
+        "flg_check_anac": 1,
+        "ds_check_anac": "Realizada 2024-10-23 12:45:02",
+        "flg_check_xcbrasil": 1,
+        "ds_check_xcbrasil": "Perfil encontrado - http:\/\/www.xcbrasil.com.br\/pilot\/0_12635",
+        "flg_check_cbvl": 0,
+        "ds_check_cbvl": "Anuidade CBVL PENDENTE",
+        "flg_check_federacao": 3,
+        "ds_check_federacao": "Liberado em 2025-01-01 13:15:23.135036",
+        "flg_check_clube": 2,
+        "ds_check_clube": "PAGAMENTO N\u00c3O REALIZADO PELA CBVL",
+        "flg_situacao": 1,
+        "id_lba": 28298
+    }
+}
+
+Estatisticas piloto xcbrasil
+http://www.xcbrasil.com.br/stats/world/alltimes/brand:all,cat:0,class:all,xctype:all,club:all,pilot:0_9320,takeoff:all
