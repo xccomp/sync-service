@@ -1,6 +1,6 @@
 {
   "name": "sync-service",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Microservice responsible for synchronization operations between XCComp and XCBrasil",
   "main": "index.js",
   "type": "module",

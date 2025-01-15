@@ -50,7 +50,7 @@ export default class ServerBuilder {
   static #createServer () {
     const server = new Server()
     server.httpServer = this.#httpServer
-    server.port = 3001
+    server.port = process.env.SERVER_PORT
     return server
   }
 }

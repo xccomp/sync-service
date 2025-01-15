@@ -1,10 +1,9 @@
-import pg from 'pg'
 import dotenv from 'dotenv'
+import pg from 'pg'
 import { logger } from '#logger'
 
-
+dotenv.config()
 const types = pg.types
-
 
 const intParse = (val) => {
   return parseInt(val, 10)
@@ -16,9 +15,6 @@ const realParse = (val) => {
 
 types.setTypeParser(types.builtins.INT8, intParse)
 types.setTypeParser(types.builtins.NUMERIC, realParse)
-
-
-dotenv.config()
 
 class XCCompDB {
   
