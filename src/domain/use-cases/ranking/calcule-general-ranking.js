@@ -115,9 +115,9 @@ function verifyFlyProximitWithTwoFlights (flight, verificationList) {
   let count = 0
   verificationList.forEach(reference => {
     const distance = getDistanceFromLatLonInKm(reference.latitude, reference.longitude, flight.latitude, flight.longitude)
-    if (distance > 3) count++ 
+    if (distance <= 3) count++ 
   })
-  return count > 2
+  return count >= 2
 }
 
 
