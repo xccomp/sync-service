@@ -80,7 +80,7 @@ export class SyncProcessor {
 
   #loadSyncConfig () {
     try {
-      const fileContent = fs.readFileSync(`./sync-files/sync-config.json`, 'utf8')
+      const fileContent = fs.readFileSync(`./src/domain/sync-processors/sync-config.json`, 'utf8')
       const data = JSON.parse(fileContent) 
       return data
     } catch (error) {

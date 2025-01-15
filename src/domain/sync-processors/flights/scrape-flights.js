@@ -87,7 +87,7 @@ function checkParams(startDate, endDate, continueFromSyncFile, overrideOnlyDateO
 }
 
 function slelectDates(startDate, endDate, continueFromSyncFile) {
-  const DEFAULT_SYNC_DAYS = 7
+  const DEFAULT_SYNC_DAYS = 6
   const dateLimit = endDate ? endDate : getYesterday()
   const selectedStartDate = startDate ? startDate : getPreviusDate(dateLimit, DEFAULT_SYNC_DAYS)
   let selectedDate = continueFromSyncFile ? selecDateFromSincyFileData() : selectedStartDate
