@@ -113,7 +113,7 @@ function pilotIsValidOnCategory (pilot, category) {
 
 
 function selectValidFlights (flightsOfPilot) {
-  flightsOfPilot.sort((a,b) => b - a)
+  flightsOfPilot.sort((a,b) => b.olcScore - a.olcScore)
   const selectedFlights = []
   for (const flight of flightsOfPilot) {
     if (!flight.validity) continue
