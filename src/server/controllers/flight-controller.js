@@ -1,15 +1,16 @@
-import { logger } from "#logger"
-import { scrapeFlights } from "#domain/sync-processors/flights/scrape-flights.js"
-import { transformFlights } from "#domain/sync-processors/flights/transform-flights.js"
-import { loadFlights } from "#domain/sync-processors/flights/load-flights.js"
-import { postProcessFlights } from "#domain/sync-processors/flights/post-process-flights.js"
+import { logger } from '#logger'
+import { scrapeFlights } from '#domain/sync-processors/flights/scrape-flights.js'
+import { transformFlights } from '#domain/sync-processors/flights/transform-flights.js'
+import { loadFlights } from '#domain/sync-processors/flights/load-flights.js'
+import { postProcessFlights } from '#domain/sync-processors/flights/post-process-flights.js'
+import { parseServerDateParameter } from '#libs/utils/date-utils.js'
 
 export default class TakeoffController {
 
   static async syncScrape (req, res) {
     try {   
-      const startDate = createDate(req.body.startDate)
-      const endDate = createDate(req.body.endDate)
+      const startDate = parseServerDateParameter(req.body.startDate)
+      const endDate = parseServerDateParameter(req.body.endDate)
       const continueFromSyncFile = req.body.continueFromSyncFile
       const overrideOnlyDateOnSyncFile = req.body.overrideOnlyDateOnSyncFile
       if (continueFromSyncFile && overrideOnlyDateOnSyncFile) {
@@ -60,13 +61,6 @@ export default class TakeoffController {
   } 
 
 
-}
-
-
-function createDate (stringDate) {
-  if (!stringDate) return null
-  const arrDate = stringDate.split('-')
-  return new Date(Number(arrDate[2]), Number(arrDate[1]) - 1, Number(arrDate[0]), 12, 0)
 }
 
 function parseError (error) { 

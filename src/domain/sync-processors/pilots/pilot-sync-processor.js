@@ -10,7 +10,7 @@ import { updateXcbrasilIds } from '#domain/use-cases/update-xcbrasil-ids.js'
 
 export default class PilotSyncProcessor {
   
-  constructor ({firstStep, lastStep, syncReport}) {
+  constructor ({firstStep, lastStep, options, syncReport}) {
     this.processName = 'PILOT-SYNC'
     this.syncReport = syncReport
 

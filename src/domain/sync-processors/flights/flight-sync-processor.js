@@ -2,20 +2,21 @@ import SyncReport from '#sync-report'
 import { logger } from '#logger'
 import { SyncProcessor } from '../sync-porcessor.js'
 
-import { scrapeFlights } from "./scrape-flights.js"
-import { transformFlights } from "./transform-flights.js"
-import { loadFlights } from "./load-flights.js"
+import { scrapeFlights } from './scrape-flights.js'
+import { transformFlights } from './transform-flights.js'
+import { loadFlights } from './load-flights.js'
 import { postProcessFlights } from './post-process-flights.js'
 
 export default class FlightSyncProcessor {
   
-  constructor ({firstStep, lastStep, syncReport}) {
+  constructor ({firstStep, lastStep, options, syncReport}) {
     this.processName = 'FLIGHT-SYNC'
     this.syncReport = syncReport
 
     this.syncProcessor = new SyncProcessor({ 
       firstStep,
-      lastStep, 
+      lastStep,
+      options,
       syncReport,
       processName: this.processName,
       scrapeStep:       async () => { await this.scrape() },
@@ -37,7 +38,8 @@ export default class FlightSyncProcessor {
     this.syncReport.startStep(this.processName, SyncProcessor.STEP_NAMES.scrape)
     let resultReport = null
     try {
-      resultReport = await scrapeFlights()
+      const { startDate, endDate } = this.syncProcessor.options
+      resultReport = await scrapeFlights({startDate, endDate})
     } catch (error) {
       this.syncReport.addOccurrence({ 
         process: this.processName,
