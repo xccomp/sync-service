@@ -5,5 +5,4 @@ const router = express.Router()
 
 router.post('/', SyncController.sync)
 
-
 export default router

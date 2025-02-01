@@ -5,7 +5,7 @@ import SyncReport from '#libs/sync-report/index.js'
 export async function executeSyncProcesses (processes) {
   const syncReport = new SyncReport(Date.now())
   const syncProcessors = processes.map(process => {
-    return createSyncProcessor (process.name, process.firstStep, process.lastStep, syncReport)
+    return createSyncProcessor (process.name, process.firstStep, process.lastStep, process.options, syncReport)
   }) 
 
   try {

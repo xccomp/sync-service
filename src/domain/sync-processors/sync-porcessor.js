@@ -23,6 +23,7 @@ export class SyncProcessor {
     firstStep = 1,
     lastStep = 5, 
     processName,
+    options,
     syncReport,
     scrapeStep,
     transformStep,
@@ -32,8 +33,9 @@ export class SyncProcessor {
   }) {
     this.firstStep = firstStep
     this.lastStep = lastStep
+    this.options = options || {}
     this.syncReport = syncReport
-    this.processName = processName,
+    this.processName = processName
     this.steps = [
       scrapeStep,
       transformStep,

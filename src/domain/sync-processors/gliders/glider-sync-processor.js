@@ -9,7 +9,7 @@ import { postProcess } from './post-process-gliders.js'
 
 export default class GliderSyncProcessor {
   
-  constructor ({firstStep, lastStep, syncReport}) {
+  constructor ({firstStep, lastStep, options, syncReport}) {
     this.processName = 'GLIDER-SYNC'
     this.syncReport = syncReport
 

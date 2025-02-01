@@ -10,7 +10,7 @@ import { updateIbgeCitiesOfCities } from '#domain/use-cases/update-ibge-cities-o
 
 export default class TakeoffSyncProcessor {
   
-  constructor ({firstStep, lastStep, syncReport}) {
+  constructor ({firstStep, lastStep, options, syncReport}) {
     this.processName = 'TAKEOFF-SYNC'
     this.syncReport = syncReport
 
