@@ -102,7 +102,7 @@ function selectValidFlights (flightsOfPilot) {
   flightsOfPilot.sort((a,b) => b.olcScore - a.olcScore)
   const selectedFlights = []
   for (const flight of flightsOfPilot) {
-    if flight.validity != 3) continue  
+    if (flight.validity != 3) continue  
     // if (!flight.airSpaceCheck) continue
     if (verifyFlyProximitWithTwoFlights(flight, selectedFlights)) continue
     selectedFlights.push(flight)
