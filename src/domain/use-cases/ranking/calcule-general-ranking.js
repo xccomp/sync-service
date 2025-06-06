@@ -58,28 +58,27 @@ async function getValidFlightsPerCategory (category) {
         f.id AS "flightId",
         f.olc_score AS "olcScore",
         f.air_space_check AS "airSpaceCheck",
-        f.validity,
         t.latitude,
         t.longitude
 
-        FROM flights f
+      FROM flights f
         INNER JOIN pilots p ON f.pilot_id = p.xcbrasil_id
         INNER JOIN glider_models g ON f.glider_model_id = g.id
         INNER JOIN takeoffs t ON f.takeoff_id = t.id
         INNER JOIN cities c ON t.city_id = c.id
         -- INNER JOIN ibge_cities i ON c.ibge_city_id =  i.id
 
-        WHERE
-          c.state = 'Minas Gerais'
-          AND ${{
-            [GeneralRankingCategories.FUN]: 'g.certification < 30', 
-            [GeneralRankingCategories.SPORT]: 'g.certification < 40', 
-            [GeneralRankingCategories.SERIAL]: 'g.certification < 50', 
-            [GeneralRankingCategories.OPEN]: 'g.certification < 100',
-            [GeneralRankingCategories.FEMALE]: 'p.female = true'
-          }[category]}
+      WHERE
+        c.state = 'Minas Gerais'
+        AND ${{
+          [GeneralRankingCategories.FUN]: 'g.certification < 30', 
+          [GeneralRankingCategories.SPORT]: 'g.certification < 40', 
+          [GeneralRankingCategories.SERIAL]: 'g.certification < 50', 
+          [GeneralRankingCategories.OPEN]: 'g.certification < 100',
+          [GeneralRankingCategories.FEMALE]: 'p.female = true'
+        }[category]}
 
-        ORDER BY f.pilot_id
+      ORDER BY f.pilot_id
     `
     const result = await dbClient.query(sql)
     return result.rows
@@ -102,7 +101,6 @@ function selectValidFlights (flightsOfPilot) {
   flightsOfPilot.sort((a,b) => b.olcScore - a.olcScore)
   const selectedFlights = []
   for (const flight of flightsOfPilot) {
-    if (flight.validity !== 3) continue  
     // if (!flight.airSpaceCheck) continue
     if (verifyFlyProximitWithTwoFlights(flight, selectedFlights)) continue
     selectedFlights.push(flight)
