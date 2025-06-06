@@ -49,7 +49,6 @@ function scrapePage ($) {
       olcDistance: $(cells[5]).text(),
       olcScore: $(cells[6]).text(),
       xcType: $(cells[6]).find('img:first-of-type').attr('class'),
-      validity: $(cells[6]).find('img:last-of-type').attr('class'),
       glider: $(cells[8]).find('div > img').attr('title')
     }
     checkScrapedRecord(data, cells)
@@ -74,7 +73,6 @@ function checkScrapedRecord (record, source) {
   if (!record.olcDistance) throw new Error(`Dado "olcDistance" não encontrado no item extraido   |    ${JSON.stringify(record)}     |     ${source}`)
   if (!record.olcScore) throw new Error(`Dado "olcScore" não encontrado no item extraido   |    ${JSON.stringify(record)}     |     ${source}`)
   if (!record.xcType) throw new Error(`Dado "xcType" não encontrado no item extraido   |    ${JSON.stringify(record)}     |     ${source}`)
-  if (!record.validity) throw new Error(`Dado "validity" não encontrado no item extraido   |    ${JSON.stringify(record)}     |     ${source}`)
 }
 
 function checkParams(startDate, endDate, continueFromSyncFile, overrideOnlyDateOnSyncFile) {
