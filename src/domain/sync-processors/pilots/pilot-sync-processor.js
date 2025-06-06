@@ -167,7 +167,7 @@ export default class PilotSyncProcessor {
     scrapedData.forEach(record => {
       const parsedRecord = {
         cbvlId: Number(record.cbvlId.split('_')[0]),
-        name: record.name.replace(/[`'"]/g, ' ').trim(),
+        name: record.name.replace(/[`'"]/g, ' ').replace(/\s+/g, ' ').trim(),
         club: record.club,
         cbvlPending: !record.cbvlPending.includes('Liberado'),
         licenseLevel: record.license.includes('PP') ? this.#transformPilotLevel(record.license) : -1
