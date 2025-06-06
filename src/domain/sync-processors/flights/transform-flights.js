@@ -35,8 +35,7 @@ function transformData (data) {
     linearDistance: Number(data.linearDistance.replace(/\u00a0/g, " ").split(' ')[0]),
     olcDistance: Number(data.olcDistance.replace(/\u00a0/g, " ").split(' ')[0]),
     olcScore: Number(data.olcScore.trim()),
-    xcType: transformXcType(data),
-    validity:  transformValidity(data),
+    xcType: transformXcType(data)
   }
   checkTransformedRecord(record, data)
   return record
@@ -59,14 +58,6 @@ function transformXcType (data) {
   throw new Error(`Falha na tentativa de converter o tipo de voo: dado = "${JSON.stringify(data)}"`)
 }
 
-function transformValidity (data) {
-  const validity = data.validity
-  if (validity.includes('sprite-icon_valid_ok')) return 3
-  if (validity.includes('sprite-icon_valid_nok')) return 2
-  if (validity.includes('sprite-icon_valid_unknown')) return 1
-  throw new Error(`Falha na tentativa de converter o a validade de voo: dado = "${JSON.stringify(data)}"`)
-}
-
 function checkTransformedRecord (record, source) {
   if (Number.isNaN(record.id) || record.id <= 0) throw new Error(`Dado "id" inválido no item transformado   |    ${JSON.stringify(record)}     |     ${JSON.stringify(source)}`)
   if (Number.isNaN(record.pilotId) || record.pilotId <= 0) throw new Error(`Dado "pilotId" inválido no item transformado   |    ${JSON.stringify(record)}     |     ${JSON.stringify(source)}`)
@@ -78,7 +69,6 @@ function checkTransformedRecord (record, source) {
   if (Number.isNaN(record.olcDistance )|| record.olcDistance < 0) throw new Error(`Dado "olcDistance" inválido no item transformado   |    ${JSON.stringify(record)}     |     ${JSON.stringify(source)}`)
   if (Number.isNaN(record.olcScore) || record.olcScore < 0) throw new Error(`Dado "olcScore" inválido no item transformado   |    ${JSON.stringify(record)}     |     ${JSON.stringify(source)}`)
   if (Number.isNaN(record.xcType) || ![1,2,3,4].includes(record.xcType)) throw new Error(`Dado "xcType" inválido no item transformado   |    ${JSON.stringify(record)}     |     ${JSON.stringify(source)}`)
-  if (Number.isNaN(record.validity) || ![1,2,3].includes(record.validity)) throw new Error(`Dado "validity" inválido no item transformado   |    ${JSON.stringify(record)}     |     ${JSON.stringify(source)}`)
 }
 
 function saveDataOnSyncFile(data) {

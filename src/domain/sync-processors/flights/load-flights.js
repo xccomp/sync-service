@@ -42,8 +42,7 @@ async function laodDataOnSyncTables (dataToLoad) {
           linear_distance,
           olc_distance,
           olc_score,
-          xc_type,
-          validity
+          xc_type
         )
       VALUES 
         ${dataToLoad.map(d => `(
@@ -56,8 +55,7 @@ async function laodDataOnSyncTables (dataToLoad) {
           ${d.linearDistance},
           ${d.olcDistance},
           ${d.olcScore},
-          ${d.xcType},
-          ${d.validity}             
+          ${d.xcType}           
         )`).join(',')}
     `
     await dbClient.query(sql) 
@@ -84,7 +82,6 @@ async function executeTablesSync () {
           olc_distance,
           olc_score,
           xc_type,
-          validity,
           pilot_xcbrasil,
           takeoff_xcbrasil,
           glider_xcbrasil
@@ -97,7 +94,6 @@ async function executeTablesSync () {
           s.olc_distance,
           s.olc_score,
           s.xc_type,
-          s.validity,
           s.pilot_id,
           s.takeoff_id,
           s.glider
