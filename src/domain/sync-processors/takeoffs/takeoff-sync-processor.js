@@ -171,7 +171,7 @@ export default class TakeoffSyncProcessor {
   #normalizeData (scrapedData) {
     const normalizedData = scrapedData.map(takeoff => ({
       id: Number(takeoff.id),
-      name: takeoff.name, 
+      name: String(takeoff.name ?? ''), 
       latitude: Number(takeoff.latitude),
       longitude: Number(takeoff.longitude)
     }))
@@ -180,18 +180,12 @@ export default class TakeoffSyncProcessor {
 
   #sanitizeData(data) {
     const sanitizeTakeoffName = name => {
-      try {
-        const sanitizedName = name.replace(/&#(\d+);/g, (m, code) => String.fromCharCode(code))
-          .replace(/[\x00-\x1F\x7F]/g, '')
-          .replace(/(--|;|sleep\s*\(|select\s*\(|insert\s*\(|if\s*\(|update\s*\(|delete\s*\()/gi, '')
-          .replace(/\$\$/g, '')
-          .trim()
-        return sanitizedName
-      } catch (error) {
-        logger.error(`Erro ao sanitizar o nome da rampa: ${name}`, error)
-        throw error
-        
-      }
+      const sanitizedName = name.replace(/&#(\d+);/g, (m, code) => String.fromCharCode(code))
+        .replace(/[\x00-\x1F\x7F]/g, '')
+        .replace(/(--|;|sleep\s*\(|select\s*\(|insert\s*\(|if\s*\(|update\s*\(|delete\s*\()/gi, '')
+        .replace(/\$\$/g, '')
+        .trim()
+      return sanitizedName
     } 
     const sanitizedData = data.map(takeoff => ({
       id: takeoff.id,
