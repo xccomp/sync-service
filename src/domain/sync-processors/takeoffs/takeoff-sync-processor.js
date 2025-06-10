@@ -139,8 +139,8 @@ export default class TakeoffSyncProcessor {
 
     let transformedData = null
     try {
-      const nomalizedData = this.#normalizeData(scrapedData)
-      transformedData = this.#sanitizeData(nomalizedData)
+      const normalizedData = this.#normalizeData(scrapedData)
+      transformedData = this.#sanitizeData(normalizedData)
     } catch (error) {
       this.syncReport.addOccurrence({ 
         process: this.processName,
