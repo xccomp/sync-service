@@ -139,7 +139,8 @@ export default class TakeoffSyncProcessor {
 
     let transformedData = null
     try {
-      transformedData = this.#normalizeData(scrapedData)
+      const nomalizedData = this.#normalizeData(scrapedData)
+      transformedData = this.#sanitizeData(nomalizedData)
     } catch (error) {
       this.syncReport.addOccurrence({ 
         process: this.processName,
@@ -175,6 +176,24 @@ export default class TakeoffSyncProcessor {
       longitude: Number(takeoff.longitude)
     }))
     return normalizedData
+  }
+
+  #sanitizeData(data) {
+    const sanitizeTakeoffName = name => {
+      const sanitizedName = name.replace(/&#(\d+);/g, (m, code) => String.fromCharCode(code))
+        .replace(/[\x00-\x1F\x7F]/g, '')
+        .replace(/(--|;|sleep\s*\(|select\s*\(|insert\s*\(|if\s*\(|update\s*\(|delete\s*\()/gi, '')
+        .replace(/\$\$/g, '')
+        .trim()
+      return sanitizedName
+    } 
+    const sanitizedData = data.map(takeoff => ({
+      id: takeoff.id,
+      name: sanitizeTakeoffName(takeoff.name),
+      latitude: takeoff.latitude,
+      longitude: takeoff.longitude
+    }))
+    return sanitizedData
   }
 
 
