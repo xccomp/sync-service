@@ -169,12 +169,16 @@ export default class TakeoffSyncProcessor {
   }
 
   #normalizeData (scrapedData) {
-    const normalizedData = scrapedData.map(takeoff => ({
-      id: Number(takeoff.id),
-      name: String(takeoff.name ?? ''), 
-      latitude: Number(takeoff.latitude),
-      longitude: Number(takeoff.longitude)
-    }))
+    const normalizedData = scrapedData.map(takeoff => {
+      const scrapedLatitude = Number(takeoff.latitude)
+      const scrapedLongitude = Number(takeoff.longitude)
+      return {
+        id: Number(takeoff.id),
+        name: typeof takeoff.name === 'string' ? takeoff.name : String(takeoff.name), 
+        latitude: scrapedLatitude > 90 || scrapedLatitude < -90 ? 0 : scrapedLatitude,
+        longitude: scrapedLongitude > 180 || scrapedLongitude < -180 ? 0 : scrapedLongitude
+      }
+    })
     return normalizedData
   }
 
