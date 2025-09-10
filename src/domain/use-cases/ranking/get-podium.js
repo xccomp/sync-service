@@ -11,6 +11,7 @@ export async function getPodiumGeneralRanking (category) {
         r.general_${category.toLowerCase()} AS "score" 
       FROM rankings r 
       INNER JOIN pilots p ON r.pilot_id = p.xcbrasil_id
+      WHERE p.inactive = false
       ORDER BY r.general_${category.toLowerCase()} DESC
       LIMIT 3
     `
@@ -38,6 +39,7 @@ export async function getPodiumRegionalLeague (regionalLeage) {
         r.${prefixLeage}_open AS "score" 
       FROM rankings r 
       INNER JOIN pilots p ON r.pilot_id = p.xcbrasil_id
+      WHERE p.inactive = false
       ORDER BY r.${prefixLeage}_open DESC
       LIMIT 1)
 
@@ -49,6 +51,7 @@ export async function getPodiumRegionalLeague (regionalLeage) {
         r.${prefixLeage}_serial AS "score" 
       FROM rankings r 
       INNER JOIN pilots p ON r.pilot_id = p.xcbrasil_id
+      WHERE p.inactive = false
       ORDER BY r.${prefixLeage}_serial DESC
       LIMIT 1)
 
@@ -60,6 +63,7 @@ export async function getPodiumRegionalLeague (regionalLeage) {
         r.${prefixLeage}_sport AS "score" 
       FROM rankings r 
       INNER JOIN pilots p ON r.pilot_id = p.xcbrasil_id
+      WHERE p.inactive = false
       ORDER BY r.${prefixLeage}_sport DESC
       LIMIT 1)
 
@@ -71,7 +75,9 @@ export async function getPodiumRegionalLeague (regionalLeage) {
         r.${prefixLeage}_fun AS "score" 
       FROM rankings r 
       INNER JOIN pilots p ON r.pilot_id = p.xcbrasil_id
-      WHERE p.license_level < 3
+      WHERE 
+        p.inactive = false
+        AND p.license_level < 3
       ORDER BY r.${prefixLeage}_fun DESC
       LIMIT 1)
     `

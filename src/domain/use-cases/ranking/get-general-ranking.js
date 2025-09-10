@@ -91,6 +91,7 @@ async function getRankingsFromDB () {
         r.flights_general_fun AS "funFlights"
       FROM rankings r 
       INNER JOIN pilots p ON r.pilot_id = p.xcbrasil_id
+      WHERE p.inactive = false
   `
     const result = await dbClient.query(sql)
     return result.rows
