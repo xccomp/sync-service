@@ -115,13 +115,16 @@ function selectValidFlights (flightsOfPilot) {
   flightsOfPilot.sort((a,b) => b.olcScore - a.olcScore)
   const selectedFlights = []
   for (const flight of flightsOfPilot) {
-    // if (!flight.airspaceCheck) continue
+    if (verifyInvalidAirspaceCheck(flight)) continue
     selectedFlights.push(flight)
     if (selectedFlights.length === 6) break
   }
   return selectedFlights
 }
 
+function verifyInvalidAirspaceCheck (flight) {
+  return flight.airspaceCheck === AirspaceCheckValues.INVALID
+}
 
 async function savePilotRank (pilotId, totalScore, rankedFlights, category, regionalLeague) {
   const dbClient = await XCCompDB.getClient()

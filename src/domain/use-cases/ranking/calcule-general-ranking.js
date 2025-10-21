@@ -1,5 +1,6 @@
 import { logger } from "#logger"
 import { GeneralRankingCategories } from "#domain/entities/general-ranking-categories.js"
+import { AirspaceCheckValues } from "#domain/entities/airscape-check-values.js"
 import { getDistanceFromLatLonInKm } from "#libs/utils/geo-utils.js"
 import XCCompDB from "#libs/xccomp-db/index.js"
 
@@ -101,12 +102,16 @@ function selectValidFlights (flightsOfPilot) {
   flightsOfPilot.sort((a,b) => b.olcScore - a.olcScore)
   const selectedFlights = []
   for (const flight of flightsOfPilot) {
-    // if (!flight.airSpaceCheck) continue
+    if (verifyInvalidAirspaceCheck(flight)) continue
     if (verifyFlyProximitWithTwoFlights(flight, selectedFlights)) continue
     selectedFlights.push(flight)
     if (selectedFlights.length === 10) break
   }
   return selectedFlights
+}
+
+function verifyInvalidAirspaceCheck (flight) {
+  return flight.airspaceCheck === AirspaceCheckValues.INVALID
 }
 
 function verifyFlyProximitWithTwoFlights (flight, verificationList) {
