@@ -57,7 +57,7 @@ async function getValidFlightsPerCategory (category) {
         f.pilot_id AS "pilotId",
         f.id AS "flightId",
         f.olc_score AS "olcScore",
-        f.air_space_check AS "airSpaceCheck",
+        f.airspace_check AS "airspaceCheck",
         t.latitude,
         t.longitude
 

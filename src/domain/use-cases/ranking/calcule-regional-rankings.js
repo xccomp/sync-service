@@ -68,7 +68,7 @@ async function getValidFlightsPerCategory (category, regionalLeague) {
         f.pilot_id AS "pilotId",
         f.id AS "flightId",
         f.olc_score AS "olcScore",
-        f.air_space_check AS "airSpaceCheck",
+        f.airspace_check AS "airspaceCheck",
         t.latitude,
         t.longitude
 
@@ -115,7 +115,7 @@ function selectValidFlights (flightsOfPilot) {
   flightsOfPilot.sort((a,b) => b.olcScore - a.olcScore)
   const selectedFlights = []
   for (const flight of flightsOfPilot) {
-    // if (!flight.airSpaceCheck) continue
+    // if (!flight.airspaceCheck) continue
     selectedFlights.push(flight)
     if (selectedFlights.length === 6) break
   }
