@@ -1,5 +1,6 @@
 import { logger } from "#logger"
 import { RegionalRankingsCategories } from "#domain/entities/regional-rankings-categories.js"
+import { AirspaceCheckValues } from "#domain/entities/airspace-check-values.js"
 import { RegionalLeagues } from "#domain/entities/regional-leagues.js"
 import { MesoregionsOfLeagues } from "#domain/entities/mesoregions-of-leagues.js"
 import XCCompDB from "#libs/xccomp-db/index.js"
@@ -68,7 +69,7 @@ async function getValidFlightsPerCategory (category, regionalLeague) {
         f.pilot_id AS "pilotId",
         f.id AS "flightId",
         f.olc_score AS "olcScore",
-        f.air_space_check AS "airSpaceCheck",
+        f.airspace_check AS "airspaceCheck",
         t.latitude,
         t.longitude
 
@@ -115,17 +116,24 @@ function selectValidFlights (flightsOfPilot) {
   flightsOfPilot.sort((a,b) => b.olcScore - a.olcScore)
   const selectedFlights = []
   for (const flight of flightsOfPilot) {
-    // if (!flight.airSpaceCheck) continue
+    // if (verifyInvalidAirspaceCheck(flight)) continue
     selectedFlights.push(flight)
     if (selectedFlights.length === 6) break
   }
   return selectedFlights
 }
 
+function verifyInvalidAirspaceCheck (flight) {
+  return flight.airspaceCheck === AirspaceCheckValues.INVALID
+}
 
 async function savePilotRank (pilotId, totalScore, rankedFlights, category, regionalLeague) {
   const dbClient = await XCCompDB.getClient()
-  const flights = rankedFlights.map(fl => ({id: fl.flightId, score: fl.olcScore}))
+    const flights = rankedFlights.map(fl => ({
+    id: fl.flightId,
+    score: fl.olcScore,
+    airspaceCheck: fl.airspaceCheck
+  }))
   
   const categoryScoreField  = `${getPrefixLeague(regionalLeague)}_${category.toLowerCase()}`
   const categoryFlightsField  = `flights_${getPrefixLeague(regionalLeague)}_${category.toLowerCase()}`

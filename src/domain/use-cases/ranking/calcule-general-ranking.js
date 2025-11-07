@@ -1,5 +1,6 @@
 import { logger } from "#logger"
 import { GeneralRankingCategories } from "#domain/entities/general-ranking-categories.js"
+import { AirspaceCheckValues } from "#domain/entities/airspace-check-values.js"
 import { getDistanceFromLatLonInKm } from "#libs/utils/geo-utils.js"
 import XCCompDB from "#libs/xccomp-db/index.js"
 
@@ -57,7 +58,7 @@ async function getValidFlightsPerCategory (category) {
         f.pilot_id AS "pilotId",
         f.id AS "flightId",
         f.olc_score AS "olcScore",
-        f.air_space_check AS "airSpaceCheck",
+        f.airspace_check AS "airspaceCheck",
         t.latitude,
         t.longitude
 
@@ -101,12 +102,16 @@ function selectValidFlights (flightsOfPilot) {
   flightsOfPilot.sort((a,b) => b.olcScore - a.olcScore)
   const selectedFlights = []
   for (const flight of flightsOfPilot) {
-    // if (!flight.airSpaceCheck) continue
+    // if (verifyInvalidAirspaceCheck(flight)) continue
     if (verifyFlyProximitWithTwoFlights(flight, selectedFlights)) continue
     selectedFlights.push(flight)
     if (selectedFlights.length === 10) break
   }
   return selectedFlights
+}
+
+function verifyInvalidAirspaceCheck (flight) {
+  return flight.airspaceCheck === AirspaceCheckValues.INVALID
 }
 
 function verifyFlyProximitWithTwoFlights (flight, verificationList) {
@@ -121,7 +126,11 @@ function verifyFlyProximitWithTwoFlights (flight, verificationList) {
 
 async function savePilotRank (pilotId, totalScore, category, rankedFlights) {
   const dbClient = await XCCompDB.getClient()
-  const flights = rankedFlights.map(fl => ({id: fl.flightId, score: fl.olcScore}))
+  const flights = rankedFlights.map(fl => ({
+    id: fl.flightId,
+    score: fl.olcScore,
+    airspaceCheck: fl.airspaceCheck
+  }))
   const categoryScoreField  = 'general_' + category.toLowerCase()
   const categoryFlightsField  = 'flights_general_' + category.toLowerCase()
 
