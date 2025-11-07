@@ -116,7 +116,7 @@ function selectValidFlights (flightsOfPilot) {
   flightsOfPilot.sort((a,b) => b.olcScore - a.olcScore)
   const selectedFlights = []
   for (const flight of flightsOfPilot) {
-    // if (verifyInvalidAirspaceCheck(flight)) continue
+    if (verifyInvalidAirspaceCheck(flight)) continue
     selectedFlights.push(flight)
     if (selectedFlights.length === 6) break
   }
