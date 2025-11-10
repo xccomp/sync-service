@@ -49,7 +49,7 @@ function scrapePage ($) {
       olcDistance: $(cells[5]).text(),
       olcScore: $(cells[6]).text(),
       xcType: $(cells[6]).find('img:first-of-type').attr('class'),
-      glider: $(cells[8]).find('div > img').attr('title')
+      glider: $(cells[8]).find('div > img').attr('title') || 'Glider não declarado'
     }
     checkScrapedRecord(data, cells)
     return data
