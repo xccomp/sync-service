@@ -46,6 +46,7 @@ async function getPilotsWithoutPending () {
       SELECT
         xcbrasil_id AS "id",
         license_level AS "licenseLevel",
+        is_experienced AS "isExperienced",
         female
       FROM pilots
       WHERE cbvl_pending = false
@@ -107,7 +108,7 @@ function getMesoregionsOfLeague (regionalLeague) {
 
 
 function pilotIsValidOnCategory (pilot, category) {
-  if (category === RegionalRankingsCategories.FUN && pilot.licenseLevel > 2) { return false }
+  if (category === RegionalRankingsCategories.FUN && (pilot.licenseLevel > 2 || pilot.isExperienced )) { return false }
   return true
 }
 

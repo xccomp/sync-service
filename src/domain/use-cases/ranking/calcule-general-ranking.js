@@ -35,6 +35,7 @@ async function getPilotsWithoutPending () {
       SELECT
         xcbrasil_id AS "id",
         license_level AS "licenseLevel",
+        is_experienced AS "isExperienced",
         female
       FROM pilots
       WHERE cbvl_pending = false
@@ -92,7 +93,7 @@ async function getValidFlightsPerCategory (category) {
 
 
 function pilotIsValidOnCategory (pilot, category) {
-  if (category === GeneralRankingCategories.FUN && pilot.licenseLevel > 2) { return false }
+  if (category === GeneralRankingCategories.FUN && (pilot.licenseLevel > 2 || pilot.isExperienced )) { return false }
   if (category === GeneralRankingCategories.FEMALE && !pilot.female) { return false }
   return true
 }
