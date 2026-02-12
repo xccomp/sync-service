@@ -13,9 +13,9 @@
   },
   "scripts": {
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --passWithNoTests",
-    "dev": "node --watch index.js | pino-pretty",
-    "debug": "node index.js | pino-pretty",
-    "preview": "node index.js | pino-pretty",
+    "dev": "node --watch src/index.js | pino-pretty",
+    "debug": "node src/index.js | pino-pretty",
+    "preview": "node src/index.js | pino-pretty",
     "start": "node src/index.js"
   },
   "author": "",
