@@ -1,5 +1,4 @@
 import express from 'express'
-import cors from 'cors'
 import Server from './server.js'
 import { 
   syncRouter,
@@ -33,7 +32,6 @@ export default class ServerBuilder {
 
   static #setHttpServerMiddlewares () {
     this.#httpServer.use(express.json())
-    this.#httpServer.use(cors())
   }
 
   static #setHttpServerRoutes () {
