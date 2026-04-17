@@ -72,11 +72,13 @@ function checkTransformedRecord (record, source) {
 }
 
 function saveDataOnSyncFile(data) {
+  fs.mkdirSync('./sync-files', { recursive: true })
   const filePath = './sync-files/flight-sync-transform.json'
   fs.writeFileSync(filePath, JSON.stringify(data))
 }
 
 function loadDataFromSyncFile () {
+  fs.mkdirSync('./sync-files', { recursive: true })
   const filePath = './sync-files/flight-sync-scrape.json'
   if (!fs.existsSync(filePath)) {
     saveDataOnSyncFile({})
