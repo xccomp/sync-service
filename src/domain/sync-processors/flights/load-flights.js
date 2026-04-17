@@ -149,8 +149,8 @@ function makeReport (startTime, totalItemsLoadedIntoSyncTable, totalItemsSynchro
 }
 
 function loadDataFromSyncFile () {
-  fs.mkdirSync('./sync-files', { recursive: true })
-  const filePath = './sync-files/flight-sync-transform.json'
+  fs.mkdirSync(process.env.SYNC_FILES_FOLDER, { recursive: true })
+  const filePath = `${process.env.SYNC_FILES_FOLDER}/flight-sync-transform.json`
   if (!fs.existsSync(filePath)) {
     saveDataOnSyncFile({})
   }

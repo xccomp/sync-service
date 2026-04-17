@@ -17,7 +17,7 @@
           else return value
         }
       } 
-      fs.createReadStream('./sync-files/pilot-sync-source-fmvl.csv')
+      fs.createReadStream(`${process.env.SYNC_FILES_FOLDER}/pilot-sync-source-fmvl.csv`)
       .pipe(csv(options))
       .on('data', data => results.push(data))
       .on('end', () => {
@@ -39,7 +39,7 @@
           return dic[header] || null
         }
       } 
-      fs.createReadStream('./sync-files/pilot-sync-source-cbvl.csv')
+      fs.createReadStream(`${process.env.SYNC_FILES_FOLDER}/pilot-sync-source-cbvl.csv`)
       .pipe(csv(options))
       .on('data', data => results.push(data))
       .on('end', () => {
