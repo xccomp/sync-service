@@ -1,4 +1,4 @@
-import { sleep } from "#libs/utils/pormise-utils.js"
+import { sleep } from "#libs/utils/promise-utils.js"
 import XCCompDB from "#libs/xccomp-db/index.js"
 import { logger } from "#logger"
 import axios from "axios"
@@ -21,7 +21,7 @@ export async function updateCitiesOfTakeoffs ()  {
     const steps = getNumberOfSteps(takeoffsWithoutCities.length, takeoffsPerStep)
     for (let step = 1; step <= steps; step++) {
       const initTime = Date.now()
-      const takeoffsOfStep = getTekeoffsOfStep(takeoffsWithoutCities, step ,takeoffsPerStep)
+      const takeoffsOfStep = getTakeoffsOfStep(takeoffsWithoutCities, step ,takeoffsPerStep)
       
       const citiesFromGoogleAPI = await getCitiesFromGoogleAPI(takeoffsOfStep)
       result.searches.successList.push(...citiesFromGoogleAPI.successList)  
@@ -45,7 +45,7 @@ function getNumberOfSteps (numberOfTakeoffs, takeoffsPerStep) {
   return Math.ceil(numberOfTakeoffs / takeoffsPerStep)
 }
 
-function getTekeoffsOfStep(listOftakeoffs, step, takeoffsPerStep) {
+function getTakeoffsOfStep(listOftakeoffs, step, takeoffsPerStep) {
   const firstIndex = step * takeoffsPerStep - takeoffsPerStep
   const lasIndex = firstIndex + takeoffsPerStep
   return listOftakeoffs.slice(firstIndex, lasIndex)
@@ -58,11 +58,22 @@ async function getCitiesFromGoogleAPI (takeofs) {
     errorList: [], // { error, item }
   }
   for (const takeoff of takeofs) {
-
-    let cancelUpdate = false 
     logger.info('Buscando cidade de rampa: ' + JSON.stringify(takeoff))
+    
+    if (takeoff.latitude === 0 && takeoff.longitude === 0) {
+      const city = {
+        country: 'Null Island',
+        state: 'Null Island',
+        name: 'Null Island'
+      }
+      result.successList.push({ ...takeoff, city })      
+      continue
+    }
+    
+    let cancelUpdate = false 
     let response = null
     try {
+
       await sleep(100)
       
       const url = stringTemplate('https://maps.googleapis.com/maps/api/geocode/json?language=${language}&key=${key}&latlng=${latlng}',{
@@ -72,7 +83,8 @@ async function getCitiesFromGoogleAPI (takeofs) {
       })
  
       response = await (await axios.get(url)).data
-            
+      console.log(JSON.stringify(takeoff), JSON.stringify(response))
+           
       if (!response.results.length) {
         response.results = [{address_components:[{
           long_name: 'Localização de coordenada inválida',
