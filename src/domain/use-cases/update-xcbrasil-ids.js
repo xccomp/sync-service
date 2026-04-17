@@ -1,4 +1,4 @@
-import { sleep } from "#libs/utils/pormise-utils.js"
+import { sleep } from "#libs/utils/promise-utils.js"
 import XCCompDB from "#libs/xccomp-db/index.js"
 import { logger } from "#logger"
 import axios from "axios"
