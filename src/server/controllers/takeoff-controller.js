@@ -6,7 +6,8 @@ export default class TakeoffController {
   static async loadCities (req, res) {
     try {   
       logger.info('TakeoffController - loadCities - call')  
-      res.send(await loadCitiesFromIbge())
+      const uf = req.params.uf
+      res.send(await loadCitiesFromIbge(uf))
     } catch (error) {   
       logger.info('TakeoffController - loadCities - error')    
       logger.error(error)

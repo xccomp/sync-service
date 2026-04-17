@@ -194,8 +194,6 @@ async load () {
     }
 
     const endDetails = {
-      relateTakeoffs: resultReport.relateTakeoffs.details,
-      relatePilots: resultReport.relatePilots.details,
       relateGliders: resultReport.relateGliders.details
     }
     this.#addOccurrencesToPostProcessSyncReport(resultReport)
@@ -204,26 +202,6 @@ async load () {
   }
 
   #addOccurrencesToPostProcessSyncReport (resultReport) {
-    const relateTakeoffsReport = resultReport.relateTakeoffs
-    relateTakeoffsReport.warnings.forEach(warning => {
-      this.syncReport.addOccurrence({ 
-        process: this.processName,
-        step: SyncProcessor.STEP_NAMES.postProcess, 
-        type: SyncReport.OCCURENCE_TYPES.warning,
-        info: warning.message,
-        details: warning.error
-      }) 
-    })
-    const relatePilotsReport = resultReport.relatePilots
-    relatePilotsReport.warnings.forEach(warning => {
-      this.syncReport.addOccurrence({ 
-        process: this.processName,
-        step: SyncProcessor.STEP_NAMES.postProcess, 
-        type: SyncReport.OCCURENCE_TYPES.warning,
-        info: warning.message,
-        details: warning.error
-      }) 
-    })
     const relateGlidersReport = resultReport.relateGliders
     relateGlidersReport.warnings.forEach(warning => {
       this.syncReport.addOccurrence({ 

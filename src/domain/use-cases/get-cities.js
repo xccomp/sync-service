@@ -5,7 +5,7 @@ export async function getBrasilianCitiesWithoutIbgeCities () {
   let dbClient = null
   try {
     dbClient = await XCCompDB.getClient()
-    const sql = 'SELECT id, name, state FROM cities c WHERE c.ibge_city_id IS NULL and c.state=$$Minas Gerais$$ AND c.country = $$Brasil$$ ORDER BY c.name ASC'
+    const sql = 'SELECT id, name, state FROM cities c WHERE c.ibge_city_id IS NULL and c.state IN ($$Minas Gerais$$, $$Espírito Santo$$, $$São Paulo$$, $$Rio de Janeiro$$, $$Goiás$$, $$Bahia$$) AND c.country = $$Brasil$$ ORDER BY c.name ASC'
     const queryResult = await dbClient.query(sql)
     return queryResult.rows.map(row => ({
       id: row.id,

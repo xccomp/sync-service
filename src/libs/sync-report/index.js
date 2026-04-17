@@ -117,6 +117,7 @@ export default class SyncReport  {
         }
 
       if (saveReportOnFile) {
+        fs.mkdirSync('./sync-files', { recursive: true })
         fs.writeFileSync(`./sync-files/${this.#reportId}-report-sync.json`, JSON.stringify(report))
       }
 

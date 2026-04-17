@@ -7,6 +7,7 @@ import SyncReport from '#sync-report'
 import { XMLParser } from 'fast-xml-parser'
 import { updateCitiesOfTakeoffs } from '#domain/use-cases/update-cities-of-takeoffs.js'
 import { updateIbgeCitiesOfCities } from '#domain/use-cases/update-ibge-cities-of-cities.js'
+import { sanitizeName } from '#libs/utils/string-utils.js'
 
 export default class TakeoffSyncProcessor {
   
@@ -183,17 +184,11 @@ export default class TakeoffSyncProcessor {
   }
 
   #sanitizeData(data) {
-    const sanitizeTakeoffName = name => {
-      const sanitizedName = name.replace(/&#(\d+);/g, (m, code) => String.fromCharCode(code))
-        .replace(/[\x00-\x1F\x7F]/g, '')
-        .replace(/(--|;|sleep\s*\(|select\s*\(|insert\s*\(|if\s*\(|update\s*\(|delete\s*\()/gi, '')
-        .replace(/\$\$/g, '')
-        .trim()
-      return sanitizedName
-    } 
+    const whiteList = [/^[\p{L}0-9\s\-'’().\/"@,:]+$/u]
+    const fatalList = [/CpjJwWHV/i] //"CpjJwWHV" é uma assinatura de ataque identificada nos nomes de mais de 1000 rampas cadastradas no XCBrasil                     
     const sanitizedData = data.map(takeoff => ({
       id: takeoff.id,
-      name: sanitizeTakeoffName(takeoff.name),
+      name: sanitizeName(takeoff.name, `Takeoff ${takeoff.id}`, whiteList, fatalList),
       latitude: takeoff.latitude,
       longitude: takeoff.longitude
     }))
@@ -318,7 +313,7 @@ export default class TakeoffSyncProcessor {
         t.name,
         t.latitude,
         t.longitude,
-        t.inserted_at,
+        t.created_at,
         t.updated_at
     `
     const reportMerg = await dbClient.query(sql)

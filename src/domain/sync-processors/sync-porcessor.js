@@ -70,11 +70,13 @@ export class SyncProcessor {
 
   saveDataOnSyncFile(data, stepName) {
     const fileName = `${this.processName.toLowerCase()}-${stepName.toLowerCase()}.json`
+    fs.mkdirSync('./sync-files', { recursive: true })
     fs.writeFileSync(`./sync-files/${fileName}`, JSON.stringify(data))
   }
   
   loadDataFromSyncFile (stepName) {
     const fileName = `${this.processName.toLowerCase()}-${stepName.toLowerCase()}.json`
+    fs.mkdirSync('./sync-files', { recursive: true })
     const fileContent = fs.readFileSync(`./sync-files/${fileName}`, 'utf8')
     const data = JSON.parse(fileContent) 
     return data
