@@ -313,7 +313,7 @@ export default class TakeoffSyncProcessor {
         t.name,
         t.latitude,
         t.longitude,
-        t.inserted_at,
+        t.created_at,
         t.updated_at
     `
     const reportMerg = await dbClient.query(sql)
