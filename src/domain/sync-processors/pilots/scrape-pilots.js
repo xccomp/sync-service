@@ -83,7 +83,7 @@ function savePageOnSyncFile(data, page) {
 }
 
 function saveDataOnSyncFile(data = {}) {
-  const path = './sync-files'
+  const path = process.env.SYNC_FILES_FOLDER
   const fileName = 'pilot-sync-scrape.json'
   const filePath = path + '/' + fileName
   fs.mkdirSync(path, { recursive: true })  
@@ -91,7 +91,7 @@ function saveDataOnSyncFile(data = {}) {
 }
 
 function loadDataFromSyncFile () {
-  const path = './sync-files'
+  const path = process.env.SYNC_FILES_FOLDER
   const fileName = 'pilot-sync-scrape.json'
   const filePath = path + '/' + fileName
   fs.mkdirSync(path, { recursive: true })

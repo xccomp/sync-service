@@ -149,14 +149,14 @@ function addDataOnSyncFile(date, data) {
 }
 
 function saveDataOnSyncFile(data) {
-  fs.mkdirSync('./sync-files', { recursive: true })
-  const filePath = './sync-files/flight-sync-scrape.json'
+  fs.mkdirSync(process.env.SYNC_FILES_FOLDER, { recursive: true })
+  const filePath = `${process.env.SYNC_FILES_FOLDER}/flight-sync-scrape.json`
   fs.writeFileSync(filePath, JSON.stringify(data))
 }
 
 function loadDataFromSyncFile () {
-  fs.mkdirSync('./sync-files', { recursive: true })
-  const filePath = './sync-files/flight-sync-scrape.json'
+  fs.mkdirSync(process.env.SYNC_FILES_FOLDER, { recursive: true })
+  const filePath = `${process.env.SYNC_FILES_FOLDER}/flight-sync-scrape.json`
   if (!fs.existsSync(filePath)) {
     saveDataOnSyncFile({})
   }
