@@ -1,6 +1,8 @@
 import { logger } from "#logger"
 import XCCompDB from "#libs/xccomp-db/index.js"
+import injectionContainer from '#modules/synchronization/core/injection-container.js'
 import fs from 'fs'
+
 
 export async function loadFlights () {
   logger.info(`Carregamento de voos iniciado`) 
@@ -16,6 +18,10 @@ export async function loadFlights () {
       await laodDataOnSyncTables(oneDayData)
       totalItemsLoadedIntoSyncTable += oneDayData.length
     }
+    logger.info('Sincronizando rampas necessarias para o sincronismo de voos') 
+    await synchronizeMissingTakeoffs()
+    logger.info('Sincronizando pilotos necessarios para o sincronismo de voos') 
+    await synchronizeMissingPilots()
     logger.info(`Executando sincronismo de tabelas de voos`) 
     totalItemsSynchronized = await executeTablesSync()
   } catch (error) {
@@ -76,33 +82,33 @@ async function executeTablesSync () {
       WHEN NOT MATCHED THEN
         INSERT (
           id,
+          pilot_id,
+          takeoff_id,
+          glider_xcbrasil,
           date,
           duration,
           linear_distance,
           olc_distance,
           olc_score,
-          xc_type,
-          pilot_xcbrasil,
-          takeoff_xcbrasil,
-          glider_xcbrasil
+          xc_type
         )
         VALUES (
           s.id,
+          s.pilot_id,
+          s.takeoff_id,
+          s.glider,
           s.date,
           s.duration,
           s.linear_distance,
           s.olc_distance,
           s.olc_score,
-          s.xc_type,
-          s.pilot_id,
-          s.takeoff_id,
-          s.glider
+          s.xc_type
         )
       RETURNING
         merge_action() as action,
         t.id,
-        t.pilot_xcbrasil,
-        t.takeoff_xcbrasil,
+        t.pilot_id,
+        t.takeoff_id,
         t.olc_score
     `  
     const result = await dbClient.query(sql) 
@@ -151,4 +157,20 @@ function loadDataFromSyncFile () {
   const fileContent = fs.readFileSync(filePath, 'utf8')
   const data = JSON.parse(fileContent)
   return data
+}
+
+async function synchronizeMissingTakeoffs () {
+  const { takeoffRepository } = injectionContainer.repositories;
+  const { takeoffScraper } = injectionContainer.scrapers;
+  const missingTakeoffIds = await takeoffRepository.getMissingTakeoffIdsInSynchronization();
+  const takeoffs = await takeoffScraper.scrapeByIds(missingTakeoffIds);
+  await takeoffRepository.save(takeoffs);
+}
+
+async function synchronizeMissingPilots () {
+  const { pilotRepository } = injectionContainer.repositories;
+  const { pilotScraper } = injectionContainer.scrapers;
+  const missingPilotIds = await pilotRepository.getMissingPilotIdsInSynchronization();
+  const pilots = await pilotScraper.scrapeByIds(missingPilotIds);
+  await pilotRepository.save(pilots);
 }
